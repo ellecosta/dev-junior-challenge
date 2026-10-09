@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from './api';
 import { CheckinForm } from './components/CheckinForm';
 import { Fila } from './components/Fila';
+import './App.css';
 
 export interface Checkin {
   id: string;
@@ -39,11 +40,16 @@ function App() {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: '0 auto', padding: 24, fontFamily: 'sans-serif' }}>
-      <h1>Check-in de Pacientes</h1>
+    <main className="app-container">
+      <header className="app-header">
+        <h1>Check-in de Pacientes</h1>
+        <p>Hospital Alemão Oswaldo Cruz · Atendimento</p>
+      </header>
+
       <CheckinForm onCheckin={aoCheckinRealizado} onRefresh={carregarFila} />
+
       <Fila itens={fila} />
-    </div>
+    </main>
   );
 }
 

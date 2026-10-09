@@ -6,31 +6,27 @@ interface Props {
 
 export function Fila({ itens }: Props) {
   return (
-    <section>
+    <section className="card">
       <h2>Fila de check-ins</h2>
 
       {itens.length === 0 ? (
-        <p>Nenhum check-in registrado hoje.</p>
+        <p className="empty-state">Nenhum check-in registrado hoje.</p>
       ) : (
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          {itens.map((item) => (
-            <li
-              key={item.id}
-              style={{
-                border: '1px solid #ddd',
-                borderRadius: 4,
-                padding: 12,
-                marginBottom: 8,
-              }}
-            >
-              <strong>{item.nome}</strong>
-              <br />
-              <small>CPF: {item.cpf}</small>
-              <br />
-              <small>
-                Chegada:{' '}
-                {new Date(item.dataHoraChegada).toLocaleString('pt-BR')}
-              </small>
+        <ul className="queue-list">
+          {itens.map((item, index) => (
+            <li key={item.id} className="queue-item">
+              <span className="queue-number">{index + 1}</span>
+
+              <div className="patient-info">
+                <strong className="patient-name">{item.nome}</strong>
+
+                <span className="patient-detail">CPF: {item.cpf}</span>
+
+                <span className="patient-detail">
+                  Chegada:{' '}
+                  {new Date(item.dataHoraChegada).toLocaleString('pt-BR')}
+                </span>
+              </div>
             </li>
           ))}
         </ul>

@@ -47,34 +47,38 @@ export function CheckinForm({ onCheckin, onRefresh }: Props) {
   };
 
   return (
-    <section style={{ marginBottom: 32 }}>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="cpf" style={{ display: 'block', marginBottom: 8 }}>
-          CPF do paciente
-        </label>
+    <section className="card">
+      <h2>Identificação do paciente</h2>
+
+      <form className="checkin-form" onSubmit={handleSubmit}>
+        <label htmlFor="cpf">CPF do paciente</label>
+
         <input
           id="cpf"
           type="text"
+          inputMode="numeric"
           value={cpf}
           onChange={(e) => setCpf(e.target.value)}
-          placeholder="11111111111"
+          placeholder="Digite o CPF do paciente"
           maxLength={14}
-          style={{ padding: 8, width: '100%', marginBottom: 8 }}
         />
-        <button
-          type="submit"
-          disabled={carregando}
-          style={{
-            padding: '8px 16px',
-            cursor: carregando ? 'not-allowed' : 'pointer',
-          }}
-        >
+
+        <button type="submit" disabled={carregando}>
           {carregando ? 'Registrando...' : 'Fazer check-in'}
         </button>
       </form>
 
-      {erro && <p style={{ color: 'red' }}>{erro}</p>}
-      {sucesso && <p style={{ color: 'green' }}>{sucesso}</p>}
+      {erro && (
+        <p className="feedback error" role="alert">
+          {erro}
+        </p>
+      )}
+
+      {sucesso && (
+        <p className="feedback success" role="status">
+          {sucesso}
+        </p>
+      )}
     </section>
   );
 }

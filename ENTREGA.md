@@ -5,6 +5,23 @@
 ## Como rodar
 _Passo a passo para subir o back-end e o front-end na minha máquina._
 
+### Docker
+1. Certificar-se de que o Docker e o Docker Compose estão instalados e rodando.
+2. Na raiz do projeto, construir e subir todos os serviços:
+
+   ```bash
+   docker compose up --build
+   ```
+
+3. Aguardar até que os três serviços estejam no ar:
+   - **mock-service** (cadastro de pacientes): `http://localhost:4000`
+   - **API** (back-end NestJS): `http://localhost:3000`
+   - **Web** (front-end React + Vite): `http://localhost:5173`
+
+4. Abrir o navegador em `http://localhost:5173` para usar a tela de check-in.
+
+Para parar, pressionar `Ctrl + C` no terminal ou rodar `docker compose down` em outra aba.
+
 ## O que foi feito
 O primeiro passo foi a etapa de planejamento. Fiz a leitura do desafio e a análise do repositório para entender o que precisava ser desenvolvido e a ordem de prioridade. 
 Além disso, tomei as primeiras decisões técnicas para implementação. 

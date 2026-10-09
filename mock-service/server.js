@@ -8,11 +8,11 @@ app.use(express.json());
 
 // Base de pacientes fictícios. Nenhum dado real.
 const PACIENTES = {
-  "11111111111": { nome: "Ana Souza",        dataNascimento: "1988-03-12" },
-  "22222222222": { nome: "Bruno Carvalho",   dataNascimento: "1975-11-02" },
-  "33333333333": { nome: "Carla Menezes",    dataNascimento: "1993-07-25" },
-  "44444444444": { nome: "Diego Fernandes",  dataNascimento: "2001-01-30" },
-  "55555555555": { nome: "Elaine Rodrigues", dataNascimento: "1960-09-18" },
+  11111111111: { nome: "Ana Souza", dataNascimento: "1988-03-12" },
+  22222222222: { nome: "Bruno Carvalho", dataNascimento: "1975-11-02" },
+  33333333333: { nome: "Carla Menezes", dataNascimento: "1993-07-25" },
+  44444444444: { nome: "Diego Fernandes", dataNascimento: "2001-01-30" },
+  55555555555: { nome: "Elaine Rodrigues", dataNascimento: "1960-09-18" },
 };
 
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
