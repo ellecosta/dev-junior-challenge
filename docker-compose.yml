@@ -1,46 +1,34 @@
-# Ponto de partida OPCIONAL. Usar Docker é um desejável, não uma obrigação.
-# O mock-service e um banco já estão prontos. Se quiser, complete com os SEUS
-# serviços: "api" (NestJS) e "web" (React).
+version: '3.8'
 
 services:
   mock-service:
     build: ./mock-service
     ports:
       - "4000:4000"
-
-  db:
-    image: postgres:16-alpine
     environment:
-      POSTGRES_USER: desafio
-      POSTGRES_PASSWORD: desafio
-      POSTGRES_DB: checkin
+      - PORT=4000
+
+  api:
+    build: ./api
     ports:
-      - "5432:5432"
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - CADASTRO_URL=http://mock-service:4000
+    depends_on:
+      - mock-service
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - ./api:/app
+      - /app/node_modules
 
-  # ------------------------------------------------------------------
-  # EXEMPLO (descomente e ajuste, se for usar Docker).
-  # A URL do serviço externo, a partir da sua api, é http://mock-service:4000
-  # (nome do serviço na rede do compose).
-  #
-  # api:
-  #   build: ./api
-  #   environment:
-  #     CADASTRO_URL: http://mock-service:4000
-  #     # DATABASE_URL: postgres://desafio:desafio@db:5432/checkin  (se usar banco)
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - mock-service
-  #
-  # web:
-  #   build: ./web
-  #   ports:
-  #     - "5173:5173"
-  #   depends_on:
-  #     - api
-  # ------------------------------------------------------------------
-
-volumes:
-  db_data:
+  web:
+    build: ./web
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3000
+    depends_on:
+      - api
+    volumes:
+      - ./web:/app
+      - /app/node_modules
