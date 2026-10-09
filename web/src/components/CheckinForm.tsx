@@ -33,10 +33,13 @@ export function CheckinForm({ onCheckin, onRefresh }: Props) {
       setCpf('');
       onRefresh();
     } catch (error: any) {
+      const status = error.response?.status;
       const mensagem =
-        error.response?.status === 404
+        status === 404
           ? 'Paciente não encontrado no cadastro.'
-          : 'Erro ao realizar check-in. Tente novamente.';
+          : status === 409
+            ? 'Check-in já realizado para este CPF.'
+            : 'Erro ao realizar check-in. Tente novamente.';
       setErro(mensagem);
     } finally {
       setCarregando(false);
@@ -61,7 +64,10 @@ export function CheckinForm({ onCheckin, onRefresh }: Props) {
         <button
           type="submit"
           disabled={carregando}
-          style={{ padding: '8px 16px', cursor: carregando ? 'not-allowed' : 'pointer' }}
+          style={{
+            padding: '8px 16px',
+            cursor: carregando ? 'not-allowed' : 'pointer',
+          }}
         >
           {carregando ? 'Registrando...' : 'Fazer check-in'}
         </button>

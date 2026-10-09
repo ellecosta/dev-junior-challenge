@@ -4,7 +4,11 @@ import { of, throwError } from 'rxjs';
 import { AxiosError } from 'axios';
 import { CheckinsService } from './checkins.service';
 import { CriarCheckinDto } from './dto/criar-checkin.dto';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 
 describe('CheckinsService', () => {
   let service: CheckinsService;
@@ -55,6 +59,24 @@ describe('CheckinsService', () => {
     );
   });
 
+  it('deve rejeitar check-in duplicado para o mesmo CPF', async () => {
+    const dto: CriarCheckinDto = { cpf: '111.111.111-11' };
+    const paciente = {
+      cpf: '11111111111',
+      nome: 'Ana Souza',
+      dataNascimento: '1988-03-12',
+    };
+
+    mockHttpService.get.mockReturnValue(of({ data: paciente }));
+
+    await service.criar(dto);
+
+    await expect(service.criar({ cpf: '11111111111' })).rejects.toThrow(
+      ConflictException,
+    );
+    expect(service.listar()).toHaveLength(1);
+  });
+
   it('deve propagar erro 404 quando o CPF não existe no mock-service', async () => {
     const error = new AxiosError('Not found');
     (error as any).response = { status: 404 };
@@ -96,5 +118,4 @@ describe('CheckinsService', () => {
     expect(lista[0].cpf).toBe(antigo.cpf);
     expect(lista[1].cpf).toBe(novo.cpf);
   });
-
 });

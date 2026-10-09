@@ -13,9 +13,7 @@ describe('CheckinsController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [CheckinsController],
-      providers: [
-        { provide: CheckinsService, useValue: mockService },
-      ],
+      providers: [{ provide: CheckinsService, useValue: mockService }],
     }).compile();
 
     controller = module.get<CheckinsController>(CheckinsController);

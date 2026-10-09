@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  ConflictException,
 } from '@nestjs/common';
 import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
@@ -26,6 +27,10 @@ export class CheckinsService {
 
     if (cpf.length !== 11) {
       throw new BadRequestException('CPF deve conter 11 dígitos.');
+    }
+
+    if (this.fila.some((checkin) => checkin.cpf === cpf)) {
+      throw new ConflictException('Check-in já realizado para este CPF.');
     }
 
     const paciente = await this.buscarPaciente(cpf);
@@ -54,7 +59,9 @@ export class CheckinsService {
 
     try {
       const response = await firstValueFrom(
-        this.httpService.get<PacienteExterno>(`${cadastroUrl}/pacientes/${cpf}`),
+        this.httpService.get<PacienteExterno>(
+          `${cadastroUrl}/pacientes/${cpf}`,
+        ),
       );
       return response.data;
     } catch (error) {

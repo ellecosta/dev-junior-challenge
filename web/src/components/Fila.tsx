@@ -28,7 +28,8 @@ export function Fila({ itens }: Props) {
               <small>CPF: {item.cpf}</small>
               <br />
               <small>
-                Chegada: {new Date(item.dataHoraChegada).toLocaleString('pt-BR')}
+                Chegada:{' '}
+                {new Date(item.dataHoraChegada).toLocaleString('pt-BR')}
               </small>
             </li>
           ))}
